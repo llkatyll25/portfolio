@@ -1,0 +1,30 @@
+RewriteEngine On
+
+RewriteCond %{HTTP_HOST} ^www\.kostymy\.github\.io$ [NC]
+RewriteRule ^(.*)$ https://kostymy.github.io/$1 [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]
+
+RewriteRule ^old-page\.html$ /new-page.html [L,R=301]
+
+Options -Indexes
+
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http://(www\.)?kostymy\.github\.io/halloween-cikavarko\.sk/ [NC]
+RewriteRule \.(gif|jpg|jpeg|png)$ - [F]
+
+<IfModule mod_deflate.c>
+
+  SetOutputFilter DEFLATE
+
+  SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+  SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary
+  SetEnvIfNoCase Request_URI \.pdf$ no-gzip dont-vary
+  SetEnvIfNoCase Request_URI \.avi$ no-gzip dont-vary
+  SetEnvIfNoCase Request_URI \.mov$ no-gzip dont-vary
+  SetEnvIfNoCase Request_URI \.mp3$ no-gzip dont-vary
+  SetEnvIfNoCase Request_URI \.mp4$ no-gzip dont-vary
+  SetEnvIfNoCase Request_URI \.rm$ no-gzip dont-vary
+</IfModule>
